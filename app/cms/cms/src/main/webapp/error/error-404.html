@@ -1,0 +1,111 @@
+
+<title>404 Error Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/bootstrap.css"/>
+<link rel="stylesheet" href="/css/font-awesome.css"/>
+
+<!-- text fonts -->
+<link rel="stylesheet" href="/css/ace-fonts.css"/>
+
+<!-- page specific plugin styles -->
+<link rel="stylesheet" href="/css/jquery-ui.css" />
+
+<!-- ace styles -->
+<link rel="stylesheet" href="/css/ace.css" class="ace-main-stylesheet" id="main-ace-style"/>
+<link rel="stylesheet" href="/css/datepicker.css" />
+<link rel="stylesheet" href="/css/bootstrap-timepicker.css" />
+<link rel="stylesheet" href="/css/daterangepicker.css" />
+<link rel="stylesheet" href="/css/bootstrap-datetimepicker.css" />
+
+
+<link rel="stylesheet" href="/css/ztree/ztree.css" />
+
+<!--[if lte IE 9]>
+<link rel="stylesheet" href="/css/ace-part2.css" class="ace-main-stylesheet"/>
+<![endif]-->
+
+<!--[if lte IE 9]>
+<link rel="stylesheet" href="/css/ace-ie.css"/>
+<![endif]-->
+
+
+<!-- ajax layout which only needs content area -->
+<div class="row">
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+
+		<!-- #section:pages/error -->
+		<div class="error-container">
+			<div class="well">
+				<h1 class="grey lighter smaller">
+					<span class="blue bigger-125">
+						<i class="ace-icon fa fa-sitemap"></i>
+						404
+					</span>
+					未找到页面
+				</h1>
+
+				<hr />
+				<h3 class="lighter smaller">我们找遍了所有地方都没有发现它!</h3>
+
+				<div>
+					<form class="form-search">
+						<span class="input-icon align-middle">
+							<i class="ace-icon fa fa-search"></i>
+
+							<input type="text" class="search-query" placeholder="Give it a search..." />
+						</span>
+						<button class="btn btn-sm" type="button">Go!</button>
+					</form>
+
+					<div class="space"></div>
+					<h4 class="smaller">同时, 你可以这样做：</h4>
+
+					<ul class="list-unstyled spaced inline bigger-110 margin-15">
+						<li>
+							<i class="ace-icon fa fa-hand-o-right blue"></i>
+							检查链接是否正确
+						</li>
+
+						<li>
+							<i class="ace-icon fa fa-hand-o-right blue"></i>
+							阅读帮助中心
+						</li>
+
+						<li>
+							<i class="ace-icon fa fa-hand-o-right blue"></i>
+							给我们更多的信息关于这个具体的错误是如何发生的!
+						</li>
+					</ul>
+				</div>
+
+				<hr />
+				<div class="space"></div>
+
+				<div class="center">
+					<a href="javascript:history.back()" class="btn btn-grey">
+						<i class="ace-icon fa fa-arrow-left"></i>
+						返回
+					</a>
+
+					<a href="/html/login.manageIndex.do#report.UI.do" class="btn btn-primary">
+						<i class="ace-icon fa fa-tachometer"></i>
+						回到首页
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- /section:pages/error -->
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+</div><!-- /.row -->
+
+<!-- page specific plugin scripts -->
+<script type="text/javascript">
+	var scripts = [null, null]
+	$('.page-content-area').ace_ajax('loadScripts', scripts, function() {
+	  //inline scripts related to this page
+	});
+</script>

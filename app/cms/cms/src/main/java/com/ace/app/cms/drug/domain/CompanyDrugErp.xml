@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.drug.domain.CompanyDrugErp">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        <result column="id" property="id"/>
+        <result column="company_id" property="companyId"/>
+        <result column="drug_id" property="drugId"/>
+        <result column="spec_drug_id" property="specDrugId"/>
+        <result column="in_count" property="inCount"/>
+        <result column="out_count" property="outCount"/>
+        <result column="corp_code" property="corpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+
+    <!-- t_cms_company_drug_erp table all fields -->
+    <sql id="Base_Column_List">
+        id,company_id,drug_id,spec_drug_id,in_count,out_count,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="ids != null">
+                and id in
+                <foreach item="aId" index="index" collection="ids"
+                         open="(" separator="," close=")">
+                #{aId}
+                </foreach>
+            </if>
+
+            <if test="id != null and id != ''">
+            and id = #{ id }
+            </if>
+            <if test="companyId != null and companyId != ''">
+            and company_id = #{ companyId }
+            </if>
+            <if test="drugId != null and drugId != ''">
+            and drug_id = #{ drugId }
+            </if>
+            <if test="specDrugId != null and specDrugId != ''">
+            and spec_drug_id = #{ specDrugId }
+            </if>
+            <if test="inCount != null ">
+            and in_count = #{ inCount }
+            </if>
+            <if test="outCount != null ">
+            and out_count = #{ outCount }
+            </if>
+            <if test="corpCode != null and corpCode != ''">
+            and corp_code = #{ corpCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+            and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        insert into t_cms_company_drug_erp(id,company_id,drug_id,spec_drug_id,in_count,out_count,corp_code,create_by,create_time,last_modify_by,last_modify_time)
+ values(#{id},#{companyId},#{drugId},#{specDrugId},#{inCount},#{outCount},#{corpCode},#{createBy},#{createTime},#{lastModifyBy},now())
+    </insert>
+
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="update" parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+    update t_cms_company_drug_erp set 
+	<trim  suffixOverrides="," >
+	<if test="companyId != null  and companyId != '' ">
+		company_id=#{companyId},
+	</if>
+	<if test="drugId != null  and drugId != '' ">
+		drug_id=#{drugId},
+	</if>
+	<if test="specDrugId != null  and specDrugId != '' ">
+		spec_drug_id=#{specDrugId},
+	</if>
+	<if test="inCount != null  ">
+		in_count=#{inCount},
+	</if>
+	<if test="outCount != null  ">
+		out_count=#{outCount},
+	</if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+		last_modify_time=now(),
+	</trim>
+		where 1=1
+        <if test="id != null and id != ''">
+            and id = #{ id }
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach item="aId" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{aId}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteById" parameterType="String">
+    delete 	 from t_cms_company_drug_erp where id = #{id}
+    </delete>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        delete from t_cms_company_drug_erp
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 根据id查询 商业公司药品Erp -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List" /> 
+	 from t_cms_company_drug_erp where id = #{id}
+    </select>
+
+
+    <!-- 商业公司药品Erp列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_company_drug_erp
+    </select>
+
+    <!-- 商业公司药品Erp条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        select count(1) from t_cms_company_drug_erp
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 商业公司药品Erp条件查询 商业公司药品Erp-->
+    <select id="getBySelective" resultMap="BaseResultMap"  parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        select <include refid="Base_Column_List"/>
+        from t_cms_company_drug_erp
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询商业公司药品Erp列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.CompanyDrugErp">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_company_drug_erp
+        <include refid="Example_Where_Clause"/>
+        order by  last_modify_time desc
+    </select>
+
+    <!-- 批量插入-->
+    <insert id="saveBatch"  parameterType="java.util.List">
+        insert into  t_cms_company_drug_erp(id,
+                                    company_id,
+                                    drug_id,
+                                    spec_drug_id,
+                                    in_count,
+                                    out_count,
+                                    corp_code,
+                                    create_by,
+                                    create_time,
+                                    last_modify_by,
+                                    last_modify_time
+                                    )
+        values
+        <foreach collection="list" item="entity" index="index" separator="," >
+            (#{entity.id},
+             #{entity.companyId},
+             #{entity.drugId},
+             #{entity.specDrugId},
+             #{entity.inCount},
+             #{entity.outCount},
+             #{entity.corpCode},
+             #{entity.createBy},
+             #{entity.createTime},
+             #{entity.lastModifyBy},
+             #{entity.lastModifyTime}
+             )
+        </foreach>
+    </insert>
+    <!-- 批量删除-->
+    <delete id="batchRemove" parameterType="java.util.HashMap">
+        delete from t_cms_company_drug_erp
+        where id in
+        <foreach collection="item" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+        <if test="corpCode != null and corpCode != ''">
+            and corp_code =#{ corpCode }
+        </if>
+
+    </delete>
+</mapper>

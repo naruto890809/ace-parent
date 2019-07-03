@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.app.cms.account.Account">
+
+    <resultMap id="result" type="com.ace.app.cms.account.Account">
+        <result property="accountId" column="account_id"/>
+        <result property="employeeCode" column="employee_code"/>
+        <result property="accountName" column="account_name"/>
+        <result property="gender" column="gender"/>
+        <result property="loginPsd" column="login_psd"/>
+        <result property="accountStatus" column="account_status"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="faceUrl" column="face_url"/>
+        <result property="rechargePsd" column="recharge_psd"/>
+        <result property="age" column="age"/>
+        <result property="selfIntroduction" column="self_introduction"/>
+        <result property="workYear" column="work_year"/>
+        <result property="weiXin" column="wei_xin"/>
+        <result property="qq" column="qq"/>
+
+
+        <result property="roleCode" column="role_code"/>
+        <result property="roleName" column="role_name"/>
+
+        <result property="corpCode" column="corp_code"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastModifyBy" column="last_modify_by"/>
+        <result property="lastModifyTime" column="last_modify_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.ace.app.cms.account.Account">
+        INSERT INTO t_cms_account(
+        account_id
+        <if test="employeeCode != null">,employee_code</if>
+        <if test="accountName != null">,account_name</if>
+        <if test="loginPsd != null">,login_psd</if>
+        <if test="accountStatus != null">,account_status</if>
+        <if test="phone != null">,phone</if>
+        <if test="email != null">,email</if>
+
+        <if test="faceUrl != null">,face_url</if>
+        <if test="rechargePsd != null">,recharge_psd</if>
+        <if test="age != null">,age</if>
+        <if test="selfIntroduction != null">,self_introduction</if>
+
+        <if test="gender != null "> ,gender</if>
+        <if test="workYear != null">,work_year</if>
+        <if test="weiXin != null">,wei_xin</if>
+        <if test="qq != null">,qq</if>
+
+
+        <if test="corpCode != null">,corp_code</if>
+        <if test="createTime != null">,create_time</if>
+        <if test="createBy != null">,create_by</if>
+        <if test="lastModifyBy != null">,last_modify_by</if>
+        <if test="lastModifyTime != null">,last_modify_time</if>
+        ) VALUES (
+        #{accountId}
+        <if test="employeeCode != null">,#{employeeCode}</if>
+        <if test="accountName != null">,#{accountName}</if>
+        <if test="loginPsd != null">,#{loginPsd}</if>
+        <if test="accountStatus != null">,#{accountStatus}</if>
+        <if test="phone != null">,#{phone}</if>
+        <if test="email != null">,#{email}</if>
+
+        <if test="faceUrl != null">,#{faceUrl}</if>
+        <if test="rechargePsd != null">,#{rechargePsd}</if>
+        <if test="age != null">,#{age}</if>
+        <if test="selfIntroduction != null">,#{selfIntroduction}</if>
+
+        <if test="gender != null "> ,#{gender}</if>
+        <if test="workYear != null">,#{workYear}</if>
+        <if test="weiXin != null">,#{weiXin}</if>
+        <if test="qq != null">,#{qq}</if>
+
+        <if test="corpCode != null">,#{corpCode}</if>
+        <if test="createTime != null">,#{createTime}</if>
+        <if test="createBy != null">,#{createBy}</if>
+        <if test="lastModifyBy != null">,#{lastModifyBy}</if>
+        <if test="lastModifyTime != null">,#{lastModifyTime}</if>
+        )
+    </insert>
+
+    <select id="getObject" parameterType="com.ace.app.cms.account.Account" resultMap="result">
+        SELECT * FROM t_cms_account
+        WHERE corp_code = #{corpCode} AND account_name = #{accountName}
+    </select>
+
+
+
+    <select id="searchRolePage" resultMap="result" parameterType="com.ace.app.cms.account.Account">
+        SELECT ac.*,ro.role_name,ro.role_code from t_cms_account ac
+        LEFT JOIN t_cms_account_role ar ON ac.account_id = ar.accout_id
+        LEFT JOIN t_cms_role ro ON ro.role_id = ar.role_id
+        WHERE ac.corp_code = #{corpCode}
+        <if test="employeeCode != null and employeeCode != ''">
+            and ac.employee_code like  CONCAT('%',#{employeeCode},'%')
+        </if>
+        <if test="accountName != null and accountName != ''">
+            and ac.account_name like CONCAT('%',#{accountName},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and ac.phone like CONCAT('%',#{phone},'%')
+        </if>
+        <if test="gender != null ">
+            and ac.gender = #{ gender }
+        </if>
+        <if test="accountStatus != null and accountStatus != ''">
+            and ac.account_status = #{ accountStatus }
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            and ro.role_code = #{ roleCode }
+        </if>
+        ORDER BY ac.last_modify_time DESC
+    </select>
+
+    <select id="searchAccountPage" resultMap="result" parameterType="com.ace.app.cms.account.Account">
+        SELECT * from t_cms_account
+        WHERE corp_code = #{corpCode}
+        <if test="employeeCode != null and employeeCode != ''">
+            and employee_code like  CONCAT('%',#{employeeCode},'%')
+        </if>
+        <if test="accountName != null and accountName != ''">
+            and account_name like CONCAT('%',#{accountName},'%')
+        </if>
+        <if test="phone != null and phone != ''">
+            and phone like CONCAT('%',#{phone},'%')
+        </if>
+        <if test="gender != null ">
+            and gender = #{ gender }
+        </if>
+        <if test="accountStatus != null and accountStatus != ''">
+            and account_status = #{ accountStatus }
+        </if>
+        ORDER BY last_modify_time DESC
+    </select>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="corpCode != null and corpCode != ''">
+                and corp_code = #{ corpCode }
+            </if>
+            <if test="employeeCode != null and employeeCode != ''">
+                and employee_code = #{ employeeCode }
+            </if>
+            <if test="accountId != null and accountId != ''">
+                and account_id = #{ accountId }
+            </if>
+
+            <if test="accountIds != null">
+                and account_id in
+                <foreach item="aId" index="index" collection="accountIds"
+                         open="(" separator="," close=")">
+                    #{aId}
+                </foreach>
+            </if>
+
+            <if test="employeeCodes != null">
+                and employee_code in
+                <foreach item="emCode" index="index" collection="employeeCodes"
+                         open="(" separator="," close=")">
+                    #{emCode}
+                </foreach>
+            </if>
+
+            <if test="accountNames != null">
+                and account_name in
+                <foreach item="accName" index="index" collection="accountNames"
+                         open="(" separator="," close=")">
+                    #{accName}
+                </foreach>
+            </if>
+
+            <if test="phones != null">
+                and phone in
+                <foreach item="accPhone" index="index" collection="phones"
+                         open="(" separator="," close=")">
+                    #{accPhone}
+                </foreach>
+            </if>
+
+            <if test="accountName != null and accountName != ''">
+                and account_name = #{ accountName }
+            </if>
+            <if test="loginPsd != null and loginPsd != ''">
+                and login_psd = #{ loginPsd }
+            </if>
+            <if test="accountStatus != null and accountStatus != ''">
+                and account_status = #{ accountStatus }
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{ phone }
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{ email }
+            </if>
+
+            <if test="faceUrl != null and faceUrl != ''">and face_url = #{faceUrl}</if>
+            <if test="rechargePsd != null and rechargePsd != ''">and recharge_psd = #{rechargePsd}</if>
+            <if test="age != null">and age =  #{age}</if>
+            <if test="selfIntroduction != null and selfIntroduction != ''">and self_introduction =  #{selfIntroduction}</if>
+            <if test="weiXin != null and weiXin != ''">and wei_xin = #{weiXin}</if>
+            <if test="qq != null and qq != ''">and qq =  #{qq}</if>
+            <if test="workYear != null">and work_year =  #{workYear}</if>
+
+
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+                and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+                and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+                and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="Base_Column_List">
+        account_id,account_name,login_psd,account_status,phone,email,face_url,recharge_psd,age,self_introduction,work_year,wei_xin,qq,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+    <!-- 查询角色列表 -->
+    <select id="findTotalByCondition" resultType="Integer" parameterType="com.ace.app.cms.account.Account">
+        select
+        count(*)
+        from t_cms_account
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询角色列表 -->
+    <select id="getById" resultMap="result" parameterType="com.ace.app.cms.account.Account">
+        select * from t_cms_account
+        where corp_code = #{corpCode} and account_id = #{accountId}
+    </select>
+
+    <!-- 查询角色列表 -->
+    <select id="findList" resultMap="result" parameterType="com.ace.app.cms.account.Account">
+        select * from t_cms_account account
+        <include refid="Example_Where_Clause"/>
+        <if test="accountNameForArchives != null and accountNameForArchives != ''">
+            AND (account.account_name like CONCAT('%',#{accountNameForArchives},'%') or account.phone like CONCAT('%',#{accountNameForArchives},'%'))
+        </if>
+    </select>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.ace.app.cms.account.Account">
+        update t_cms_account set
+        <trim  suffixOverrides="," >
+            <if test="employeeCode != null  and employeeCode != '' ">
+                employee_code=#{employeeCode},
+            </if>
+            <if test="accountName != null  and accountName != '' ">
+                account_name=#{accountName},
+            </if>
+            <if test="gender != null  ">
+                gender=#{gender},
+            </if>
+            <if test="loginPsd != null and loginPsd != '' ">
+                login_psd=#{loginPsd},
+            </if>
+            <if test="accountStatus != null  and accountStatus != '' ">
+                account_status=#{accountStatus},
+            </if>
+            <if test="phone != null">
+                phone=#{phone},
+            </if>
+            <if test="email != null">
+                email=#{email},
+            </if>
+
+            <if test="faceUrl != null and faceUrl != '' ">face_url = #{faceUrl}, </if>
+            <if test="rechargePsd != null  and rechargePsd != '' ">recharge_psd = #{rechargePsd}, </if>
+            <if test="age != null">age =  #{age}, </if>
+            <if test="selfIntroduction != null and selfIntroduction != ''"> self_introduction =  #{selfIntroduction}, </if>
+
+            <if test="workYear != null">work_year = #{workYear}, </if>
+            <if test="weiXin != null and weiXin != ''">wei_xin =  #{weiXin}, </if>
+            <if test="qq != null  and qq != ''"> qq =  #{qq}, </if>
+
+            <if test="corpCode != null  and corpCode != '' ">
+                corp_code=#{corpCode},
+            </if>
+            <if test="createBy != null  and createBy != '' ">
+                create_by=#{createBy},
+            </if>
+            <if test="createTime != null  ">
+                create_time=#{createTime},
+            </if>
+            <if test="lastModifyBy != null  and lastModifyBy != '' ">
+                last_modify_by=#{lastModifyBy},
+            </if>
+            <if test="lastModifyTime != null  ">
+                last_modify_time=#{lastModifyTime},
+            </if>
+        </trim> where account_id=#{accountId}
+    </update>
+
+    <!-- 根据id，修改状态-->
+    <update id="updateStatus" parameterType="com.ace.app.cms.account.Account">
+        update t_cms_account set account_status=#{accountStatus} where corp_code = #{corpCode} and account_id in
+        <foreach item="accountId" index="index" collection="accountIds"
+                 open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </update>
+
+    <select id="getAllAccountIds" resultType="String" parameterType="String">
+        select account_id from t_cms_account where corp_code = #{corpCode} and account_status='ACTIVATED'
+    </select>
+</mapper>

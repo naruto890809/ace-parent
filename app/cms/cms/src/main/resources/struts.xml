@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+		"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+		"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <include file="struts-default.xml"/>
+    <!--freemarkerManager 配置  -->
+    <constant name="struts.freemarker.manager.classname" value="freemarkerManager" />
+
+	<constant name="struts.i18n.reload" value="false"/>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.action.extension" value="do"/>
+	<constant name="struts.devMode" value="false"/>
+	<constant name="struts.configuration.xml.reload" value="false"/>
+	<constant name="struts.serve.static.browserCache" value="true"/>
+	<constant name="struts.multipart.maxSize" value="104857700"/>
+	<constant name="struts.freemarker.templatesCache.updateDelay" value="0"/>
+    <constant name="struts.freemarker.mru.max.strong.size" value="500"/>
+
+	<package name="ace" extends="struts-default" namespace="/">
+
+
+
+		<result-types>
+            <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult"/>
+		</result-types>
+
+		<interceptors>
+            <interceptor name="remoteSessionInterceptor" class="com.ace.framework.base.RemoteSessionInterceptor"></interceptor>
+            <interceptor name="permissionInterceptor" class="com.ace.app.cms.privilege.PermissionInterceptor"></interceptor>
+
+			<interceptor-stack name="simpleStatck">
+				<interceptor-ref name="autowiring"/>
+				<interceptor-ref name="exception"/>
+				<interceptor-ref name="alias"/>
+				<interceptor-ref name="modelDriven"/>
+				<interceptor-ref name="params"/>
+				<interceptor-ref name="servletConfig"/>
+				<interceptor-ref name="prepare"/>
+				<interceptor-ref name="chain"/>
+				<interceptor-ref name="profiling"/>
+				<interceptor-ref name="fileUpload"/>
+				<interceptor-ref name="workflow">
+					<param name="excludeMethods">
+						input,back,cancel,browse
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="modelDriven"/>
+				<interceptor-ref name="staticParams"/>
+				<interceptor-ref name="actionMappingParams"/>
+				<interceptor-ref name="params">
+				    <param name="devMode">false</param>
+				</interceptor-ref>
+				<interceptor-ref name="conversionError"/>
+			</interceptor-stack>
+			<interceptor-stack name="default-stack">
+				<interceptor-ref name="simpleStatck"/>
+			</interceptor-stack>
+			<interceptor-stack name="none-authority-statck">
+                <interceptor-ref name="remoteSessionInterceptor"/>
+                <interceptor-ref name="permissionInterceptor"/>
+                <interceptor-ref name="simpleStatck"/>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="none-authority-statck"/>
+<!--
+
+        <global-results>
+            <result type="freemarker" name="message">/WEB-INF/page/common/message.ftl</result>
+            <result type="freemarker" name="error-500">/WEB-INF/page/common/error-500.ftl</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping result="error-500" exception="java.lang.Exception"></exception-mapping>
+        </global-exception-mappings>
+-->
+
+	</package>
+
+    <package name="login" extends="ace" namespace="/html">
+		<action name="login.*" class="com.ace.app.cms.web.login.LoginAction" method="{1}">
+			<result type="freemarker" name="index">/WEB-INF/page/login/loginIndex.ftl</result>
+			<result type="freemarker" name="manageIndex">/WEB-INF/page/index/manageIndex.ftl</result>
+		</action>
+	</package>
+
+    <package name="account" extends="ace" namespace="/html">
+        <action name="account.*" class="com.ace.app.cms.web.account.AccountAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/account/${target}.ftl</result>
+            <result type="stream" name="exportAccount">
+                <param name="contentType">application/ms-excel;charset=UTF-8</param>
+                <param name="inputName">exportAccountInputStream</param>
+                <param name="contentDisposition">attachment;filename="${exportAccountFileName}"</param>
+            </result>
+            <result type="stream" name="downloadImportAccountTmp">
+                <param name="contentType">application/ms-excel;charset=UTF-8</param>
+                <param name="inputName">downloadImportAccountTmpInputStream</param>
+                <param name="contentDisposition">attachment;filename="${downloadImportAccountTmpFileName}"</param>
+            </result>
+            <result type="stream" name="downloadImportAccountErrorInfo">
+                <param name="contentType">application/ms-excel;charset=UTF-8</param>
+                <param name="inputName">downloadImportAccountErrorInfoInputStream</param>
+                <param name="contentDisposition">attachment;filename="${downloadImportAccountErrorInfoFileName}"</param>
+            </result>
+        </action>
+    </package>
+
+
+
+    <package name="systemSetting" extends="ace" namespace="/html">
+        <action name="menu.*" class="com.ace.app.cms.privilege.action.MenuAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/menu/${target}.ftl</result>
+        </action>
+        <action name="role.*" class="com.ace.app.cms.privilege.action.RoleMenuRelAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/menu/role/${target}.ftl</result>
+        </action>
+    </package>
+
+    <package name="common" extends="ace" namespace="/html">
+        <action name="common.*" class="com.ace.app.cms.common.CommonAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/common/${target}.ftl</result>
+        </action>
+    </package>
+
+
+    <package name="drug" extends="ace" namespace="/html">
+        <action name="biz.*" class="com.ace.app.cms.drug.action.BizAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/biz/${target}.ftl</result>
+        </action>
+		<action name="company.*" class="com.ace.app.cms.drug.action.CompanyAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/company/${target}.ftl</result>
+        </action>
+        <action name="companyDrug.*" class="com.ace.app.cms.drug.action.CompanyDrugAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/companyDrug/${target}.ftl</result>
+        </action>
+
+		<action name="department.*" class="com.ace.app.cms.drug.action.DepartmentAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/department/${target}.ftl</result>
+        </action>
+		<action name="dic.*" class="com.ace.app.cms.drug.action.DicAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/dic/${target}.ftl</result>
+        </action>
+		<action name="drug.*" class="com.ace.app.cms.drug.action.DrugAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/drug/${target}.ftl</result>
+        </action>
+		<action name="hospital.*" class="com.ace.app.cms.drug.action.HospitalAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/hospital/${target}.ftl</result>
+        </action>
+		<action name="order.*" class="com.ace.app.cms.drug.action.OrderAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/order/${target}.ftl</result>
+        </action>
+        <action name="exportRecord.*" class="com.ace.app.cms.drug.action.ExportRecordAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/exportRecord/${target}.ftl</result>
+        </action>
+
+		<action name="rebate.*" class="com.ace.app.cms.drug.action.RebateAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/rebate/${target}.ftl</result>
+        </action>
+		<action name="salesman.*" class="com.ace.app.cms.drug.action.SalesmanAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/salesman/${target}.ftl</result>
+        </action>
+		<action name="sellArea.*" class="com.ace.app.cms.drug.action.SellAreaAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/sellArea/${target}.ftl</result>
+        </action>
+        <action name="report.*" class="com.ace.app.cms.drug.action.ReportAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/report/${target}.ftl</result>
+        </action>
+        <action name="departmentJob.*" class="com.ace.app.cms.drug.action.DepartmentJobAction" method="{1}">
+            <result type="freemarker" name="common">/WEB-INF/page/drug/departmentJob/${target}.ftl</result>
+        </action>
+
+    </package>
+
+</struts>

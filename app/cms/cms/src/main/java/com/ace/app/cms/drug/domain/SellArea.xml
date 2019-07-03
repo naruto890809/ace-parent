@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.drug.domain.SellArea">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.drug.domain.SellArea">
+        <result column="id" property="id"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="area" property="area"/>
+        <result column="approve" property="approve"/>
+        <result column="corp_code" property="corpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+
+    <!-- t_cms_sell_area table all fields -->
+    <sql id="Base_Column_List">
+        id,province,city,area,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="id != null and id != ''">
+            and id = #{ id }
+            </if>
+            <if test="province != null and province != ''">
+            and province = #{ province }
+            </if>
+            <if test="city != null and city != ''">
+            and city = #{ city }
+            </if>
+            <if test="area != null and area != ''">
+            and area like CONCAT('%',#{area},'%')
+            </if>
+            <if test="approve != null and approve != ''">
+            and approve = #{ approve }
+            </if>
+
+            <if test="ids != null">
+                and id in
+                <foreach item="aId" index="index" collection="ids"
+                         open="(" separator="," close=")">
+                    #{aId}
+                </foreach>
+            </if>
+
+            <if test="corpCode != null and corpCode != ''">
+            and corp_code = #{ corpCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+            and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.drug.domain.SellArea">
+        insert into t_cms_sell_area(id,province,city,area,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time)
+ values(#{id},#{province},#{city},#{area},#{approve},#{corpCode},#{createBy},#{createTime},#{lastModifyBy},now())
+    </insert>
+
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="update" parameterType="com.ace.app.cms.drug.domain.SellArea">
+    update t_cms_sell_area set 
+	<trim  suffixOverrides="," >
+	<if test="province != null  and province != '' ">
+		province=#{province},
+	</if>
+	<if test="city != null  and city != '' ">
+		city=#{city},
+	</if>
+	<if test="area != null  and area != '' ">
+		area=#{area},
+	</if>
+	<if test="approve != null  and approve != '' ">
+		approve=#{approve},
+	</if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+		last_modify_time=now(),
+	</trim>
+		where 1=1
+        <if test="id != null and id != ''">
+            and id = #{ id }
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach item="aId" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{aId}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteById" parameterType="String">
+    delete 	 from t_cms_sell_area where id = #{id}
+    </delete>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="com.ace.app.cms.drug.domain.SellArea">
+        delete from t_cms_sell_area
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 根据id查询 销售区域 -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List" /> 
+	 from t_cms_sell_area where id = #{id}
+    </select>
+
+
+    <!-- 销售区域列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_sell_area
+    </select>
+
+    <!-- 销售区域条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.drug.domain.SellArea">
+        select count(1) from t_cms_sell_area
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 销售区域条件查询 销售区域-->
+    <select id="getBySelective" resultMap="BaseResultMap"  parameterType="com.ace.app.cms.drug.domain.SellArea">
+        select <include refid="Base_Column_List"/>
+        from t_cms_sell_area
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询销售区域列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.SellArea">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_sell_area
+        <include refid="Example_Where_Clause"/>
+        order by  last_modify_time desc
+    </select>
+
+    <!-- 批量插入-->
+    <insert id="saveBatch"  parameterType="java.util.List">
+        insert into  t_cms_sell_area(id,
+                                    province,
+                                    city,
+                                    area,
+                                    approve,
+                                    corp_code,
+                                    create_by,
+                                    create_time,
+                                    last_modify_by,
+                                    last_modify_time
+                                    )
+        values
+        <foreach collection="list" item="entity" index="index" separator="," >
+            (#{entity.id},
+             #{entity.province},
+             #{entity.city},
+             #{entity.area},
+             #{entity.approve},
+             #{entity.corpCode},
+             #{entity.createBy},
+             #{entity.createTime},
+             #{entity.lastModifyBy},
+             #{entity.lastModifyTime}
+             )
+        </foreach>
+    </insert>
+    <!-- 批量删除-->
+    <delete id="batchRemove" parameterType="java.util.HashMap">
+        delete from t_cms_sell_area
+        where id in
+        <foreach collection="item" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+        <if test="corpCode != null and corpCode != ''">
+            and corp_code =#{ corpCode }
+        </if>
+    </delete>
+</mapper>

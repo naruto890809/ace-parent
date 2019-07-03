@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ace.app.cms.blob.Blob">
+
+    <resultMap id="result" type="com.ace.app.cms.blob.Blob">
+        <result property="blobId" column="blob_id"/>
+        <result property="resourceId" column="resource_id"/>
+        <result property="columnName" column="column_name"/>
+        <result property="tableName" column="table_name"/>
+        <result property="txtValue" column="txt_value"/>
+
+        <result property="corpCode" column="corp_code"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastModifyBy" column="last_modify_by"/>
+        <result property="lastModifyTime" column="last_modify_time"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.ace.app.cms.blob.Blob">
+        INSERT INTO t_cms_blob(
+        blob_id
+        <if test="resourceId != null">,resource_id</if>
+        <if test="columnName != null">,column_name</if>
+        <if test="tableName != null">,table_name</if>
+        <if test="txtValue != null">,txt_value</if>
+
+        <if test="corpCode != null">,corp_code</if>
+        <if test="createTime != null">,create_time</if>
+        <if test="createBy != null">,create_by</if>
+        <if test="lastModifyBy != null">,last_modify_by</if>
+        <if test="lastModifyTime != null">,last_modify_time</if>
+        ) VALUES (
+        #{blobId}
+        <if test="resourceId != null">,#{resourceId}</if>
+        <if test="columnName != null">,#{columnName}</if>
+        <if test="tableName != null">,#{tableName}</if>
+        <if test="txtValue != null">,#{txtValue}</if>
+
+        <if test="corpCode != null">,#{corpCode}</if>
+        <if test="createTime != null">,#{createTime}</if>
+        <if test="createBy != null">,#{createBy}</if>
+        <if test="lastModifyBy != null">,#{lastModifyBy}</if>
+        <if test="lastModifyTime != null">,#{lastModifyTime}</if>
+        )
+    </insert>
+
+    <update id="updateTxtValue" parameterType="com.ace.app.cms.blob.Blob">
+        update t_cms_blob set txt_value = #{txtValue}
+        where corp_code = #{corpCode} and resource_id = #{resourceId} and column_name = #{columnName}
+    </update>
+
+    <select id="getColumnValue" parameterType="com.ace.app.cms.blob.Blob" resultType="String">
+        SELECT txt_value FROM t_cms_blob
+        where corp_code = #{corpCode} and resource_id = #{resourceId} and column_name = #{columnName}
+    </select>
+
+    <select id="getColumnValueByBlobId" parameterType="String" resultType="String">
+        SELECT txt_value FROM t_cms_blob
+        where blob_id = #{blobId}
+    </select>
+
+    <select id="getColumnNameAndTxtValue" parameterType="com.ace.app.cms.blob.Blob" resultMap="result">
+        SELECT column_name,txt_value FROM t_cms_blob
+        where corp_code = #{corpCode} and resource_id = #{resourceId} and column_name in
+        <foreach item="columnName" index="index" collection="columnNames"
+                 open="(" separator="," close=")">
+            #{columnName}
+        </foreach>
+    </select>
+
+    <delete id="deleteByResourceIdAndColumnName" parameterType="com.ace.app.cms.blob.Blob">
+        delete from t_cms_blob
+        where corp_code = #{corpCode} and resource_id = #{resourceId}
+        <if test="columnName != null">and column_name = #{columnName}</if>
+    </delete>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateSelect" parameterType="com.ace.app.cms.blob.Blob">
+        update t_cms_blob set
+        <trim  suffixOverrides="," >
+            <if test="resourceId != null  and resourceId != '' ">
+                resource_id=#{resourceId},
+            </if>
+            <if test="tableName != null  and tableName != '' ">
+                table_name=#{tableName},
+            </if>
+            <if test="columnName != null  and columnName != '' ">
+                column_name=#{columnName},
+            </if>
+            <if test="txtValue != null  ">
+                txt_value=#{txtValue},
+            </if>
+            <if test="corpCode != null  and corpCode != '' ">
+                corp_code=#{corpCode},
+            </if>
+            <if test="lastModifyBy != null  and lastModifyBy != '' ">
+                last_modify_by=#{lastModifyBy},
+            </if>
+            last_modify_time=now(),
+        </trim>
+        where blob_id = #{blobId}
+    </update>
+
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="blobId != null and blobId != ''">
+                and blob_id = #{ blobId }
+            </if>
+            <if test="resourceId != null and resourceId != ''">
+                and resource_id = #{ resourceId }
+            </if>
+            <if test="tableName != null and tableName != ''">
+                and table_name = #{ tableName }
+            </if>
+            <if test="columnName != null and columnName != ''">
+                and column_name = #{ columnName }
+            </if>
+            <if test="txtValue != null ">
+                and txt_value = #{ txtValue }
+            </if>
+            <if test="corpCode != null and corpCode != ''">
+                and corp_code = #{ corpCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+                and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+                and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+                and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+</mapper>

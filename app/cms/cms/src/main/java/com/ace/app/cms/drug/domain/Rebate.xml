@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.drug.domain.Rebate">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.drug.domain.Rebate">
+        <result column="id" property="id"/>
+        <result column="company_id" property="companyId"/>
+        <result column="company_last" property="companyLast"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="drug_id" property="drugId"/>
+        <result column="spec_drug_id" property="specDrugId"/>
+        <result column="dif_type" property="difType"/>
+        <result column="price_topic" property="priceTopic"/>
+        <result column="bidding_price" property="biddingPrice"/>
+        <result column="execute_price" property="executePrice"/>
+        <result column="bright_price" property="brightPrice"/>
+        <result column="bright_execute_date" property="brightExecuteDate"/>
+        <result column="dark_price" property="darkPrice"/>
+        <result column="dark_execute_date" property="darkExecuteDate"/>
+        <result column="rebate_price" property="rebatePrice"/>
+        <result column="rebate_rate" property="rebateRate"/>
+        <result column="rebate_style" property="rebateStyle"/>
+        <result column="approve" property="approve"/>
+        <result column="corp_code" property="corpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+
+    <!-- t_cms_rebate table all fields -->
+    <sql id="Base_Column_List">
+        id,company_id,hospital_id,company_last,drug_id,spec_drug_id,dif_type,price_topic,bidding_price,execute_price,bright_price,bright_execute_date,dark_price,dark_execute_date,rebate_price,rebate_rate,rebate_style,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="ids != null">
+                and id in
+                <foreach item="aId" index="index" collection="ids"
+                         open="(" separator="," close=")">
+                #{aId}
+                </foreach>
+            </if>
+
+            <if test="id != null and id != ''">
+            and id = #{ id }
+            </if>
+            <if test="companyId != null and companyId != ''">
+            and company_id = #{ companyId }
+            </if>
+            <if test="companyLast != null and companyLast != ''">
+            and company_last = #{ companyLast }
+            </if>
+
+            <if test="hospitalId != null and hospitalId != ''">
+            and hospital_id = #{ hospitalId }
+            </if>
+            <if test="drugId != null and drugId != ''">
+            and drug_id = #{ drugId }
+            </if>
+            <if test="specDrugId != null and specDrugId != ''">
+            and spec_drug_id = #{ specDrugId }
+            </if>
+            <if test="difType != null and difType != ''">
+            and dif_type = #{ difType }
+            </if>
+            <if test="priceTopic != null and priceTopic != ''">
+            and price_topic = #{ priceTopic }
+            </if>
+            <if test="biddingPrice != null ">
+            and bidding_price = #{ biddingPrice }
+            </if>
+            <if test="executePrice != null ">
+            and execute_price = #{ executePrice }
+            </if>
+            <if test="brightPrice != null ">
+            and bright_price = #{ brightPrice }
+            </if>
+            <if test="brightExecuteDate != null ">
+            and bright_execute_date = #{ brightExecuteDate }
+            </if>
+            <if test="darkPrice != null ">
+            and dark_price = #{ darkPrice }
+            </if>
+            <if test="darkExecuteDate != null ">
+            and dark_execute_date = #{ darkExecuteDate }
+            </if>
+            <if test="rebatePrice != null ">
+            and rebate_price = #{ rebatePrice }
+            </if>
+            <if test="rebateRate != null ">
+            and rebate_rate = #{ rebateRate }
+            </if>
+            <if test="rebateStyle != null and rebateStyle != ''">
+            and rebate_style = #{ rebateStyle }
+            </if>
+            <if test="approve != null and approve != ''">
+            and approve = #{ approve }
+            </if>
+            <if test="corpCode != null and corpCode != ''">
+            and corp_code = #{ corpCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+            and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        insert into t_cms_rebate(id,company_id,hospital_id,company_last,drug_id,spec_drug_id,dif_type,price_topic,bidding_price,execute_price,bright_price,bright_execute_date,dark_price,dark_execute_date,rebate_price,rebate_rate,rebate_style,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time)
+ values(#{id},#{companyId},#{hospitalId},#{companyLast},#{drugId},#{specDrugId},#{difType},#{priceTopic},#{biddingPrice},#{executePrice},#{brightPrice},#{brightExecuteDate},#{darkPrice},#{darkExecuteDate},#{rebatePrice},#{rebateRate},#{rebateStyle},#{approve},#{corpCode},#{createBy},#{createTime},#{lastModifyBy},now())
+    </insert>
+
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="update" parameterType="com.ace.app.cms.drug.domain.Rebate">
+    update t_cms_rebate set 
+	<trim  suffixOverrides="," >
+	<if test="companyId != null  and companyId != '' ">
+		company_id=#{companyId},
+	</if>
+	<if test="hospitalId != null  and hospitalId != '' ">
+		hospital_id=#{hospitalId},
+	</if>
+
+
+	<if test="companyLast != null  and companyLast != '' ">
+        company_last=#{companyLast},
+	</if>
+
+
+	<if test="drugId != null  and drugId != '' ">
+		drug_id=#{drugId},
+	</if>
+	<if test="specDrugId != null  and specDrugId != '' ">
+		spec_drug_id=#{specDrugId},
+	</if>
+	<if test="difType != null  and difType != '' ">
+		dif_type=#{difType},
+	</if>
+	<if test="priceTopic != null  and priceTopic != '' ">
+		price_topic=#{priceTopic},
+	</if>
+	<if test="biddingPrice != null  ">
+		bidding_price=#{biddingPrice},
+	</if>
+	<if test="executePrice != null  ">
+		execute_price=#{executePrice},
+	</if>
+
+        <if test="brightPrice != null  ">
+            bright_price=#{brightPrice},
+	</if>
+        <if test="brightExecuteDate != null  ">
+            bright_execute_date=#{brightExecuteDate},
+	</if>
+
+        <if test="approveCheck ==null or approveCheck == '' ">
+            dark_price=#{darkPrice},
+            dark_execute_date=#{darkExecuteDate},
+	</if>
+
+
+	<if test="rebatePrice != null  ">
+		rebate_price=#{rebatePrice},
+	</if>
+	<if test="rebateRate != null  ">
+		rebate_rate=#{rebateRate},
+	</if>
+	<if test="rebateStyle != null  and rebateStyle != '' ">
+		rebate_style=#{rebateStyle},
+	</if>
+	<if test="approve != null  and approve != '' ">
+		approve=#{approve},
+	</if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+		last_modify_time=now(),
+	</trim>
+		where 1=1
+        <if test="id != null and id != ''">
+            and id = #{ id }
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach item="aId" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{aId}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteById" parameterType="String">
+    delete 	 from t_cms_rebate where id = #{id}
+    </delete>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        delete from t_cms_rebate
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 根据id查询 返利设置 -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List" /> 
+	 from t_cms_rebate where id = #{id}
+    </select>
+
+
+    <!-- 返利设置列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_rebate
+    </select>
+
+    <!-- 返利设置条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        select count(1) from t_cms_rebate
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 返利设置条件查询 返利设置-->
+    <select id="getBySelective" resultMap="BaseResultMap"  parameterType="com.ace.app.cms.drug.domain.Rebate">
+        select <include refid="Base_Column_List"/>
+        from t_cms_rebate
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询返利设置列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_rebate
+        <include refid="Example_Where_Clause"/>
+        order by  last_modify_time desc
+    </select>
+
+    <select id="findForBright" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+            t_cms_rebate
+        WHERE approve = 'PASSED'
+        AND company_id = #{companyId}
+        AND hospital_id=#{hospitalId}
+        AND drug_id =#{drugId}
+        AND spec_drug_id = #{specDrugId}
+        AND bright_execute_date is NOT NULL AND #{orderDate} &gt;= bright_execute_date
+        ORDER BY
+        bright_execute_date DESC
+        LIMIT 1
+    </select>
+
+    <select id="findForDark" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Rebate">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+            t_cms_rebate
+        WHERE approve = 'PASSED'
+        AND company_id = #{companyId}
+        AND hospital_id=#{hospitalId}
+        AND drug_id =#{drugId}
+        AND spec_drug_id = #{specDrugId}
+        AND dark_execute_date is NOT NULL AND #{orderDate} &gt;= dark_execute_date
+        ORDER BY
+        dark_execute_date DESC
+        LIMIT 1
+    </select>
+
+    <!-- 批量插入-->
+    <insert id="saveBatch"  parameterType="java.util.List">
+        insert into  t_cms_rebate(id,
+                                    company_id,
+        company_last,
+                                    hospital_id,
+                                    drug_id,
+                                    spec_drug_id,
+                                    dif_type,
+                                    price_topic,
+                                    bidding_price,
+                                    execute_price,
+                                    bright_price,
+                                    bright_execute_date,
+                                    dark_price,
+                                    dark_execute_date,
+                                    rebate_price,
+                                    rebate_rate,
+                                    rebate_style,
+                                    approve,
+                                    corp_code,
+                                    create_by,
+                                    create_time,
+                                    last_modify_by,
+                                    last_modify_time
+                                    )
+        values
+        <foreach collection="list" item="entity" index="index" separator="," >
+            (#{entity.id},
+             #{entity.companyId},
+             #{entity.companyLast},
+             #{entity.hospitalId},
+             #{entity.drugId},
+             #{entity.specDrugId},
+             #{entity.difType},
+             #{entity.priceTopic},
+             #{entity.biddingPrice},
+             #{entity.executePrice},
+             #{entity.brightPrice},
+             #{entity.brightExecuteDate},
+             #{entity.darkPrice},
+             #{entity.darkExecuteDate},
+             #{entity.rebatePrice},
+             #{entity.rebateRate},
+             #{entity.rebateStyle},
+             #{entity.approve},
+             #{entity.corpCode},
+             #{entity.createBy},
+             #{entity.createTime},
+             #{entity.lastModifyBy},
+             #{entity.lastModifyTime}
+             )
+        </foreach>
+    </insert>
+    <!-- 批量删除-->
+    <delete id="batchRemove" parameterType="java.util.HashMap">
+        delete from t_cms_rebate
+        where id in
+        <foreach collection="item" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+        <if test="corpCode != null and corpCode != ''">
+            and corp_code =#{ corpCode }
+        </if>
+
+    </delete>
+</mapper>

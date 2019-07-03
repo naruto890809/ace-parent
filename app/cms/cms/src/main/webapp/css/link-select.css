@@ -1,0 +1,295 @@
+/************************链接选择窗****************************/
+.dialog-mask{
+	position: absolute;
+	left: 0;top: 0;right: 0;bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 1400;
+	display: none;
+}
+#link-selector{
+	position: absolute;
+	z-index: 1500;
+	left: 50%;
+	top: 10px;
+	opacity: 0;
+	display: none;
+	/*display: none;*/
+	margin-left: -370px;
+}
+#link-selector li{
+	list-style: none;
+}
+#link-selector .nav-tabs{
+    padding-top: 6px;
+    background-color: #357FC9;
+    /*border: 1px solid #C5D0DC;*/
+}
+.nav .close-dialog{
+	cursor: pointer;
+	font-size: 20px;
+	position: absolute;
+	right: 15px;
+	color: #fff;
+	line-height: 28px;
+	transition:color .3s;
+	-moz-transition:color .3s; 
+	-webkit-transition:color .3s; 
+	-o-transition:color .3s;
+}
+.nav .close-dialog:hover{
+	color: #FF9684;
+}
+#link-selector .tab-content{
+	padding: 0 !important;
+	background-color: #fff;
+}
+
+.tab-content .section-head{
+	z-index: 1566;
+	position: relative;
+	padding: 16px 12px 0 12px;
+}
+.tab-content .section-head .select-wrap{
+	border-bottom: 1px solid #EEEEEE ;
+}
+.tab-content .section-head .category-selector{
+	border: 1px solid #7DB4D8;
+	border-radius: 2px;
+	font-size: 12px;
+	width: 100px;
+}
+.tab-content .section-head ul{
+	display: inline-block;
+	margin-left: 0;
+	margin-bottom: 0;
+	padding-right: 180px;
+}
+.tab-content .section-head ul li{
+	line-height: 35px;
+	float: left;
+	margin: 0 0 0 5px;
+}
+.link-search{
+	top: 20px !important;
+	height: 30px !important;
+}
+.link-search .btn-info{
+	/*width: 1px;*/
+	top: -2px;
+	left: 4px;
+	border-radius: 4px;
+	display: none;
+}
+.link-search .clear-btn{
+	cursor: pointer;
+	position: absolute;
+	width: 30px;
+	left: auto;
+	top: 0px;
+	right: 2px !important;
+	color: #D15B47;
+	display: none;
+}
+.tab-content .section-center{
+	min-height: 420px;
+	padding: 10px;
+	position: relative;
+	background-color: #fff;
+}
+.tab-content .section-center ul{
+	margin: 0 !important;
+}
+/*.tab-content .section-center{
+	transition:all .3s;
+	-moz-transition:all .3s; 
+	-webkit-transition:all .3s; 
+	-o-transition:all .3s;
+}*/
+
+/*列表型样式*/
+.tab-content .section-center .item-box{
+	cursor: pointer;
+	height: 100px;
+	border-radius: 3px;
+	background-color: #fff;
+	transition:background-color .3s;
+	-moz-transition:background-color .3s; 
+	-webkit-transition:background-color .3s; 
+	-o-transition:background-color .3s;
+}
+.tab-content .section-center .item-box:hover{
+	background-color: #BAD3E9;
+}
+.tab-content .section-center .item-box img{
+	display: inline-block;
+	float: left;
+	width: 80px;
+	height: 80px;
+	margin: 10px;
+}
+.tab-content .section-center .item-box i{
+	display: inline-block;
+	float: left;
+	height: 80px;
+	line-height: 80px;
+	margin: 10px 20px;
+	color: #6FB3E0;
+	font-size: 3em;
+}
+.tab-content .section-center .item-box div{
+	line-height: 100px;
+	display: inline-block;
+}
+.tab-content .section-center .item-name{
+	float: left;
+	width: 40%;
+	margin-right: 2%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.tab-content .section-center .item-num{
+	float: left;
+	text-align: right;
+	width: 15%;
+}
+.tab-content .section-center .item-price{
+	width: 10%;
+	text-align: right;
+	float: left;
+}
+.tab-content .section-center .item-choose{
+	float: right;
+	line-height: 15px !important;
+	width: 80px;
+	margin-top: 33px;
+	margin-right: 5%;
+}
+
+/*方块型样式*/
+#system-functions .section-center{
+	padding: 30px 20px;
+}
+#system-functions .section-center ul li{
+	margin-right: 10px;
+	float: left;
+}
+.tab-content .section-center .item-box-sq{
+	cursor: pointer;
+	width: 86px;
+	height: 86px;
+	padding: 3px;
+	background-color: #fff;
+	transition:background-color .2s;
+	-moz-transition:background-color .2s; 
+	-webkit-transition:background-color .2s; 
+	-o-transition:background-color .2s;
+}
+.tab-content .section-center .item-box-sq:hover{
+	background-color: #BAD3E9;
+}
+.tab-content .section-center .item-box-sq .content {
+	width: 80px;
+	height: 80px;
+	text-align: center;
+	padding-top: 30px;
+	color: #ffffff;
+	background: #5FA6D3;
+	transition:background-color .2s;
+	-moz-transition:background-color .2s; 
+	-webkit-transition:background-color .2s; 
+	-o-transition:background-color .2s;
+}
+.tab-content .section-center .item-box-sq:hover .content {
+	background: #357FC9;
+}
+.tab-content .section-center .item-box-sq i,.tab-content .section-center .item-box-sq p{
+	color: #fff;
+}
+.tab-content .section-center .item-box-sq p{
+	margin-top: 3px;
+}
+
+
+#custom-pages  .section-center{
+	padding: 30px 20px;
+}
+#custom-pages .section-center ul li{
+	margin-right: 10px;
+	float: left;
+}
+#custom-pages .section-center .item-box-sq{
+	background-color: #fff;
+}
+#custom-pages .section-center .item-box-sq:hover{
+	background-color: #7DB4D8;
+}
+#custom-pages .section-center .item-box-sq .content {
+	background: #7DB4D8;
+	padding-top: 28px;
+	color: #fff;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+#custom-pages .section-center .item-box-sq:hover .content {
+	background: #7DB4D8;
+}
+
+
+#my-materials .section-head{
+	height: 67px;
+	border-bottom: 1px solid #eee;
+}
+#my-materials .section-head .radio{
+	float: left;
+	margin-right: 8px;
+	margin-top: 7px;
+}
+
+
+/***content adaptive***/
+@media screen and (max-width: 1366px){
+	.tab-content .section-head .category-selector{
+		width: 60px;
+	}
+	.coreL{
+		width: 243px;height: 100%;
+	}
+	.tab-content .section-center{
+		min-height: 300px;
+	}
+	.tab-content .section-center .item-box{
+		height: 60px !important;
+	}
+	.tab-content .section-center .item-box img{
+		width: 40px;
+		height: 40px;
+		margin: 10px;
+	}
+	.tab-content .section-center .item-box i{
+		height: 40px;
+		line-height: 40px;
+		margin: 10px 20px;
+		font-size: 2em;
+	}
+	.tab-content .section-center .item-box div{
+		line-height: 60px;
+	}
+	
+	.tab-content .section-center .item-choose{
+		margin-top: 13px;
+	}
+} 
+
+
+.tab-content .section-foot{
+	height: 45px;
+	position: relative;
+	background-color: #EFF3F8;
+}
+.tab-content .section-foot .pagination{
+	float: right;
+	margin: 8px;
+}
+

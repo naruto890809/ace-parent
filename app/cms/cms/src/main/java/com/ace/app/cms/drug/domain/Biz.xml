@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.drug.domain.Biz">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.drug.domain.Biz">
+        <result column="id" property="id"/>
+        <result column="salesman_id" property="salesmanId"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="drug_id" property="drugId"/>
+        <result column="spec_drug_id" property="specDrugId"/>
+        <result column="sale_date" property="saleDate"/>
+        <result column="trace_start_date" property="traceStartDate"/>
+        <result column="trace_end_date" property="traceEndDate"/>
+        <result column="note" property="note"/>
+        <result column="amount" property="amount"/>
+        <result column="type" property="type"/>
+        <result column="approve" property="approve"/>
+        <result column="corp_code" property="corpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+
+    <!-- t_cms_biz table all fields -->
+    <sql id="Base_Column_List">
+        id,salesman_id,amount,type,hospital_id,drug_id,spec_drug_id,sale_date,trace_start_date,trace_end_date,note,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="ids != null">
+                and id in
+                <foreach item="aId" index="index" collection="ids"
+                         open="(" separator="," close=")">
+                #{aId}
+                </foreach>
+            </if>
+
+            <if test="id != null and id != ''">
+            and id = #{ id }
+            </if>
+            <if test="salesmanId != null and salesmanId != ''">
+            and salesman_id = #{ salesmanId }
+            </if>
+
+
+            <if test="salesmanIds != null">
+                and salesman_id in
+                <foreach item="saId" index="index" collection="salesmanIds"
+                         open="(" separator="," close=")">
+                    #{saId}
+                </foreach>
+            </if>
+
+
+            <if test="hospitalId != null and hospitalId != ''">
+            and hospital_id = #{ hospitalId }
+            </if>
+            <if test="drugId != null and drugId != ''">
+            and drug_id = #{ drugId }
+            </if>
+            <if test="type != null and type != ''">
+            and type = #{ type }
+            </if>
+            <if test="specDrugId != null and specDrugId != ''">
+            and spec_drug_id = #{ specDrugId }
+            </if>
+            <if test="saleDate != null ">
+            and sale_date &gt;= #{ saleDate }
+            </if>
+            <if test="traceStartDate != null ">
+            and trace_start_date &gt;= #{ traceStartDate }
+            </if>
+            <if test="traceEndDate != null ">
+            and trace_end_date &lt;= #{ traceEndDate }
+            </if>
+
+            <if test="conditionStartDate != null">
+                and  trace_end_date &gt;= #{conditionStartDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="conditionEndDate != null">
+                and  trace_start_date &lt;= #{conditionEndDate,jdbcType=TIMESTAMP}
+            </if>
+
+            <if test="note != null and note != ''">
+            and note like CONCAT('%',#{note},'%')
+            </if>
+            <if test="approve != null and approve != ''">
+            and approve = #{ approve }
+            </if>
+            <if test="corpCode != null and corpCode != ''">
+            and corp_code = #{ corpCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+            and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.drug.domain.Biz">
+        insert into t_cms_biz(id,amount,type,salesman_id,hospital_id,drug_id,spec_drug_id,sale_date,trace_start_date,trace_end_date,note,approve,corp_code,create_by,create_time,last_modify_by,last_modify_time)
+ values(#{id},#{amount},#{type},#{salesmanId},#{hospitalId},#{drugId},#{specDrugId},#{saleDate},#{traceStartDate},#{traceEndDate},#{note},#{approve},#{corpCode},#{createBy},#{createTime},#{lastModifyBy},now())
+    </insert>
+
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="update" parameterType="com.ace.app.cms.drug.domain.Biz">
+    update t_cms_biz set 
+	<trim  suffixOverrides="," >
+	<if test="salesmanId != null  and salesmanId != '' ">
+		salesman_id=#{salesmanId},
+	</if>
+	<if test="hospitalId != null  and hospitalId != '' ">
+		hospital_id=#{hospitalId},
+	</if>
+	<if test="drugId != null  and drugId != '' ">
+		drug_id=#{drugId},
+	</if>
+
+	<if test="type != null  and type != '' ">
+        type=#{type},
+	</if>
+
+
+
+	<if test="specDrugId != null  and specDrugId != '' ">
+		spec_drug_id=#{specDrugId},
+	</if>
+	<if test="saleDate != null  ">
+		sale_date=#{saleDate},
+	</if>
+
+        <if test="editCheck == null  or editCheck == '' ">
+            amount=#{amount},
+            trace_start_date=#{traceStartDate},
+            trace_end_date=#{traceEndDate},
+            note=#{note},
+        </if>
+
+
+	<if test="approve != null  and approve != '' ">
+		approve=#{approve},
+	</if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+		last_modify_time=now(),
+	</trim>
+		where 1=1
+        <if test="id != null and id != ''">
+            and id = #{ id }
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach item="aId" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{aId}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteById" parameterType="String">
+    delete 	 from t_cms_biz where id = #{id}
+    </delete>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="com.ace.app.cms.drug.domain.Biz">
+        delete from t_cms_biz
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 根据id查询 业务管理 -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List" /> 
+	 from t_cms_biz where id = #{id}
+    </select>
+
+
+    <!-- 业务管理列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_biz
+    </select>
+
+    <!-- 业务管理条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.drug.domain.Biz">
+        select count(1) from t_cms_biz
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 业务管理条件查询 业务管理-->
+    <select id="getBySelective" resultMap="BaseResultMap"  parameterType="com.ace.app.cms.drug.domain.Biz">
+        select <include refid="Base_Column_List"/>
+        from t_cms_biz
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询业务管理列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Biz">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_biz
+        <include refid="Example_Where_Clause"/>
+        order by  last_modify_time desc
+    </select>
+
+ <!-- 查询业务管理列表 -->
+    <select id="findForOrder" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Biz">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_biz
+        WHERE approve='PASSED'
+        AND hospital_id = #{hospitalId}
+        AND drug_id =#{drugId}
+        AND spec_drug_id = #{specDrugId}
+        AND #{orderDate} &gt;= sale_date
+        ORDER BY
+        sale_date DESC
+        LIMIT 1
+    </select>
+
+    <!-- 批量插入-->
+    <insert id="saveBatch"  parameterType="java.util.List">
+        insert into  t_cms_biz(id,
+                                    salesman_id,
+                                    hospital_id,
+                                    drug_id,
+                                    spec_drug_id,
+                                    sale_date,
+                                    trace_start_date,
+                                    trace_end_date,
+                                    note,
+                                    approve,
+        type,
+        amount,
+                                    corp_code,
+                                    create_by,
+                                    create_time,
+                                    last_modify_by,
+                                    last_modify_time
+                                    )
+        values
+        <foreach collection="list" item="entity" index="index" separator="," >
+            (#{entity.id},
+             #{entity.salesmanId},
+             #{entity.hospitalId},
+             #{entity.drugId},
+             #{entity.specDrugId},
+             #{entity.saleDate},
+             #{entity.traceStartDate},
+             #{entity.traceEndDate},
+             #{entity.note},
+             #{entity.approve},
+             #{entity.type},
+             #{entity.amount},
+             #{entity.corpCode},
+             #{entity.createBy},
+             #{entity.createTime},
+             #{entity.lastModifyBy},
+             #{entity.lastModifyTime}
+             )
+        </foreach>
+    </insert>
+    <!-- 批量删除-->
+    <delete id="batchRemove" parameterType="java.util.HashMap">
+        delete from t_cms_biz
+        where id in
+        <foreach collection="item" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+        <if test="corpCode != null and corpCode != ''">
+            and corp_code =#{ corpCode }
+        </if>
+    </delete>
+</mapper>

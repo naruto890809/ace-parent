@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.privilege.domain.Role">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.privilege.domain.Role">
+        <result column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+
+        <result column="corp_code" property="corpCode"/>
+        <result column="parent_corp_code" property="parentCorpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+        <result column="visible" property="visible"/>
+    </resultMap>
+
+    <!-- t_cms_role table all fields -->
+    <sql id="Base_Column_List">
+        role_id,role_name,role_code,corp_code,parent_corp_code,create_by,create_time,last_modify_by,last_modify_time,visible
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="corpCode != null and corpCode != ''">
+                and corp_code = #{ corpCode }
+            </if>
+            <if test="parentCorpCode != null and parentCorpCode != ''">
+                and parent_corp_code = #{ parentCorpCode }
+            </if>
+            <if test="roleId != null and roleId != ''">
+            and role_id = #{ roleId }
+            </if>
+            <if test="roleCodes != null">
+                    and role_code in
+                    <foreach item="rc" index="index" collection="roleCodes"
+                             open="(" separator="," close=")">
+                        #{rc}
+                    </foreach>
+            </if>
+            <if test="roleName != null and roleName != ''">
+            and role_name = #{ roleName }
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+            and role_code = #{ roleCode }
+            </if>
+            <if test="createBy != null and createBy != ''">
+            and create_by = #{ createBy }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+            <if test="visible != null and visible !='' ">
+                and visible = #{ visible }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.privilege.domain.Role">
+        insert into t_cms_role(role_id,role_name,role_code,corp_code,parent_corp_code,create_by,create_time,last_modify_by,last_modify_time,visible)
+ values(#{roleId},#{roleName},#{roleCode},#{corpCode},#{parentCorpCode},#{createBy},now(),#{lastModifyBy},#{lastModifyTime},#{visible})
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.ace.app.cms.privilege.domain.Role">
+        update t_cms_role set
+        <trim  suffixOverrides="," >
+            <if test="roleName != null  and roleName != '' ">
+                role_name=#{roleName},
+            </if>
+            <if test="roleCode != null  and roleCode != '' ">
+                role_code=#{roleCode},
+            </if>
+            <if test="corpCode != null  and corpCode != '' ">
+                corp_code=#{corpCode},
+            </if>
+            <if test="parentCorpCode != null  and parentCorpCode != '' ">
+                parent_corp_code=#{parentCorpCode},
+            </if>
+            <if test="visible != null ">
+                visible=#{visible},
+            </if>
+            <if test="lastModifyBy != null  and lastModifyBy != '' ">
+                last_modify_by=#{lastModifyBy},
+            </if>
+
+
+            last_modify_time=now(),
+        </trim>
+            where role_id=#{roleId}
+       <!-- update t_cms_role set role_name=#{roleName},role_code = #{ roleCode },corp_code=#{corpCode},parent_corp_code=#{parentCorpCode},create_by=#{createBy},create_time=now(),last_modify_by=#{lastModifyBy},last_modify_time=#{lastModifyTime} where role_id=#{roleId}-->
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.ace.app.cms.privilege.domain.Role">
+    update t_cms_role set 
+	<trim  suffixOverrides="," >
+	<if test="roleName != null  and roleName != '' ">
+		role_name=#{roleName},
+	</if>
+    <if test="roleCode != null and roleCode != ''">
+        and role_code = #{ roleCode }
+    </if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+        <if test="parentCorpCode != null  and parentCorpCode != '' ">
+            parent_corp_code=#{parentCorpCode},
+        </if>
+	<if test="createBy != null  and createBy != '' ">
+		create_by=#{createBy},
+	</if>
+	<if test="createTime != null  ">
+		create_time=#{createTime},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+	<if test="lastModifyTime != null  ">
+		last_modify_time=#{lastModifyTime},
+	</if>
+    <if test="visible != null ">
+        visible=#{visible},
+    </if>
+	</trim> where role_id=#{roleId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="String">
+    delete 	 from t_cms_role where role_id = #{roleId}
+    </delete>
+
+    <!-- 根据id查询 角色 -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+    select <include refid="Base_Column_List" /> 
+	 from t_cms_role where role_id = #{roleId}
+    </select>
+
+
+    <!-- 角色列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_role
+    </select>
+
+    <!-- 角色条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.privilege.domain.Role">
+        select count(1) from t_cms_role
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询角色列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.privilege.domain.Role">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_role
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <select id="findRoleCodes" resultType="String" parameterType="com.ace.app.cms.privilege.domain.Role">
+        select role_code from t_cms_role
+        where  role_id in
+        <foreach item="roleId" index="index" collection="roleIds"
+                 open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+</mapper>

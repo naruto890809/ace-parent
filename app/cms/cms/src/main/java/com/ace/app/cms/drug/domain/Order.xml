@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.app.cms.drug.domain.Order">
+    <!-- Result Map-->
+    <resultMap id="BaseResultMap" type="com.ace.app.cms.drug.domain.Order">
+        <result column="id" property="id"/>
+        <result column="drug_name" property="drugName"/>
+        <result column="spec_name" property="specName"/>
+        <result column="drug_spec_name" property="drugSpecName"/>
+        <result column="drug_num" property="drugNum"/>
+        <result column="drug_cnt" property="drugCnt"/>
+        <result column="drug_code" property="drugCode"/>
+        <result column="coefficient" property="coefficient"/>
+        <result column="hospital_name" property="hospitalName"/>
+        <result column="hospitalPreName" property="hospitalPreName"/>
+        <result column="hospitalPreAddre" property="hospitalPreAddre"/>
+        <result column="order_date" property="orderDate"/>
+        <result column="price" property="price"/>
+        <result column="company_name" property="companyName"/>
+        <result column="branch_company_name" property="branchCompanyName"/>
+        <result column="branch_company" property="branchCompany"/>
+
+        <result column="year" property="year"/>
+        <result column="month" property="month"/>
+        <result column="day" property="day"/>
+        <result column="actual_price" property="actualPrice"/>
+        <result column="total_money" property="totalMoney"/>
+        <result column="company_area" property="companyArea"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="hospital_area" property="hospitalArea"/>
+        <result column="hospital_city" property="hospitalCity"/>
+        <result column="hospital_province" property="hospitalProvince"/>
+        <result column="hospital_lavel" property="hospitalLavel"/>
+        <result column="hospital_type" property="hospitalType"/>
+        <result column="salesman_name" property="salesmanName"/>
+        <result column="deduction_rate" property="deductionRate"/>
+        <result column="bidding_price" property="biddingPrice"/>
+        <result column="billing_price" property="billingPrice"/>
+        <result column="rebate_rate" property="rebateRate"/>
+        <result column="bright_price" property="brightPrice"/>
+        <result column="dark_price" property="darkPrice"/>
+        <result column="rebate_price" property="rebatePrice"/>
+        <result column="drug_id" property="drugId"/>
+        <result column="spec_id" property="specId"/>
+        <result column="hospital_id" property="hospitalId"/>
+        <result column="deptment_id" property="deptmentId"/>
+        <result column="company_id" property="companyId"/>
+        <result column="company_sell_area_id" property="companySellAreaId"/>
+        <result column="salesman_id" property="salesmanId"/>
+        <result column="company_drug_id" property="companyDrugId"/>
+        <result column="rebate_id" property="rebateId"/>
+        <result column="status" property="status"/>
+        <result column="priceTopicName" property="priceTopicName"/>
+        <result column="corp_code" property="corpCode"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_modify_by" property="lastModifyBy"/>
+        <result column="last_modify_time" property="lastModifyTime"/>
+    </resultMap>
+
+    <!-- t_cms_order table all fields -->
+    <sql id="Base_Column_List">
+        id,drug_name,priceTopicName,drug_code,spec_name,hospital_city,hospital_province,drug_spec_name,drug_num,drug_cnt,hospitalPreAddre,hospitalPreName,hospital_name,order_date,price,company_name,branch_company_name,branch_company,year,month,day,actual_price,total_money,company_area,department_name,hospital_area,hospital_lavel,hospital_type,salesman_name,deduction_rate,bidding_price,billing_price,rebate_rate,bright_price,dark_price,rebate_price,drug_id,spec_id,hospital_id,deptment_id,company_id,company_sell_area_id,salesman_id,company_drug_id,rebate_id,status,corp_code,create_by,create_time,last_modify_by,last_modify_time
+    </sql>
+
+    <!-- 查询条件 -->
+    <sql id="Example_Where_Clause">
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="ids != null">
+                and id in
+                <foreach item="aId" index="index" collection="ids"
+                         open="(" separator="," close=")">
+                #{aId}
+                </foreach>
+            </if>
+
+
+            <if test="id != null and id != ''">
+            and id = #{ id }
+            </if>
+            <if test="drugName != null and drugName != ''">
+            and drug_name = #{ drugName }
+            </if>
+            <if test="specName != null and specName != ''">
+            and spec_name = #{ specName }
+            </if>
+           <!-- <if test="drugSpecName != null and drugSpecName != ''">
+            and drug_spec_name = #{ drugSpecName }
+            </if>-->
+            <if test="drugNum != null and drugNum != ''">
+            and drug_num like CONCAT('%',#{drugNum},'%')
+            </if>
+            <if test="drugCnt != null ">
+            and drug_cnt = #{ drugCnt }
+            </if>
+            <if test="hospitalName != null and hospitalName != ''">
+            and hospital_name = #{ hospitalName }
+            </if>
+            <if test="startTime != null ">
+            and order_date &gt;=#{startTime}
+            </if>
+
+            <if test="endTime != null ">
+            AND order_date &lt; #{endTime}
+            </if>
+
+            <if test="createStart != null ">
+            and create_time &gt;=#{createStart}
+            </if>
+
+            <if test="createEnd != null ">
+            AND create_time &lt; #{createEnd}
+            </if>
+
+            <if test="price != null ">
+            and price = #{ price }
+            </if>
+            <if test="companyName != null and companyName != ''">
+            and company_name = #{ companyName }
+            </if>
+            <if test="branchCompanyName != null and branchCompanyName != ''">
+            and branch_company_name = #{ branchCompanyName }
+            </if>
+            <if test="branchCompany != null and branchCompany != ''">
+            and branch_company = #{ branchCompany }
+            </if>
+            <if test="year != null ">
+            and year = #{ year }
+            </if>
+            <if test="month != null ">
+            and month = #{ month }
+            </if>
+            <if test="day != null ">
+            and day = #{ day }
+            </if>
+            <if test="actualPrice != null ">
+            and actual_price = #{ actualPrice }
+            </if>
+            <if test="totalMoney != null ">
+            and total_money = #{ totalMoney }
+            </if>
+            <if test="companyArea != null and companyArea != ''">
+            and company_area = #{ companyArea }
+            </if>
+            <if test="departmentName != null and departmentName != ''">
+            and department_name = #{ departmentName }
+            </if>
+
+            <if test="departmentNameList != null">
+            and department_name in
+            <foreach item="departmentNameL" index="index" collection="departmentNameList"
+                     open="(" separator="," close=")">
+                #{departmentNameL}
+            </foreach>
+            </if>
+
+            <if test="hospitalArea != null and hospitalArea != ''">
+            and hospital_area like CONCAT('%',#{hospitalArea},'%')
+            </if>
+            <if test="hospitalLavel != null and hospitalLavel != ''">
+            and hospital_lavel = #{ hospitalLavel }
+            </if>
+            <if test="hospitalType != null and hospitalType != ''">
+            and hospital_type = #{ hospitalType }
+            </if>
+            <if test="priceTopicName != null and priceTopicName != ''">
+            and priceTopicName = #{ priceTopicName }
+            </if>
+            <if test="salesmanName != null and salesmanName != ''">
+            and salesman_name = #{ salesmanName }
+            </if>
+            <if test="deductionRate != null ">
+            and deduction_rate = #{ deductionRate }
+            </if>
+            <if test="biddingPrice != null ">
+            and bidding_price = #{ biddingPrice }
+            </if>
+            <if test="billingPrice != null ">
+            and billing_price = #{ billingPrice }
+            </if>
+            <if test="rebateRate != null ">
+            and rebate_rate = #{ rebateRate }
+            </if>
+            <if test="brightPrice != null ">
+            and bright_price = #{ brightPrice }
+            </if>
+            <if test="darkPrice != null ">
+            and dark_price = #{ darkPrice }
+            </if>
+            <if test="rebatePrice != null ">
+            and rebate_price = #{ rebatePrice }
+            </if>
+            <if test="drugId != null and drugId != ''">
+            and drug_id = #{ drugId }
+            </if>
+            <if test="specId != null and specId != ''">
+            and spec_id = #{ specId }
+            </if>
+            <if test="hospitalId != null and hospitalId != ''">
+            and hospital_id = #{ hospitalId }
+            </if>
+            <if test="deptmentId != null and deptmentId != ''">
+            and deptment_id = #{ deptmentId }
+            </if>
+
+            <if test="deptIds != null">
+                and deptment_id in
+                <foreach item="deptId" index="index" collection="deptIds"
+                         open="(" separator="," close=")">
+                    #{deptId}
+                </foreach>
+            </if>
+
+
+            <if test="hospitalNameList != null">
+                and
+                <foreach item="hospitalNameL" index="index" collection="hospitalNameList"
+                         open="(" separator=" and " close=")">
+                    hospital_name like CONCAT('%',#{hospitalNameL},'%')
+                </foreach>
+            </if>
+
+            <if test="companyId != null and companyId != ''">
+            and company_id = #{ companyId }
+            </if>
+            <if test="companySellAreaId != null and companySellAreaId != ''">
+            and company_sell_area_id = #{ companySellAreaId }
+            </if>
+            <if test="salesmanId != null and salesmanId != ''">
+            and salesman_id = #{ salesmanId }
+            </if>
+            <if test="companyDrugId != null and companyDrugId != ''">
+            and company_drug_id = #{ companyDrugId }
+            </if>
+            <if test="rebateId != null and rebateId != ''">
+            and rebate_id = #{ rebateId }
+            </if>
+            <if test="status != null and status != ''">
+                <if test="status == 'formal'">
+                    and status = '0'
+                </if>
+                <if test="status == '123'">
+                    and status != '0'
+                </if>
+            </if>
+            <if test="corpCode != null and corpCode != ''">
+            and corp_code = #{ corpCode }
+            </if>
+            <if test="creater != null and creater != ''">
+            and create_by = #{ creater }
+            </if>
+            <if test="createTime != null ">
+            and create_time = #{ createTime }
+            </if>
+            <if test="lastModifyBy != null and lastModifyBy != ''">
+            and last_modify_by = #{ lastModifyBy }
+            </if>
+            <if test="lastModifyTime != null ">
+            and last_modify_time = #{ lastModifyTime }
+            </if>
+        </trim>
+    </sql>
+
+
+    <!-- 插入记录 -->
+    <insert id="insert" parameterType="com.ace.app.cms.drug.domain.Order">
+        insert into t_cms_order(id,drug_code,priceTopicName,hospital_city,hospital_province,coefficient,drug_name,spec_name,drug_spec_name,drug_num,drug_cnt,hospitalPreAddre,hospitalPreName,hospital_name,order_date,price,company_name,branch_company_name,branch_company,year,month,day,actual_price,total_money,company_area,department_name,hospital_area,hospital_lavel,hospital_type,salesman_name,deduction_rate,bidding_price,billing_price,rebate_rate,bright_price,dark_price,rebate_price,drug_id,spec_id,hospital_id,deptment_id,company_id,company_sell_area_id,salesman_id,company_drug_id,rebate_id,status,corp_code,create_by,create_time,last_modify_by,last_modify_time)
+ values(#{id},#{drugCode},#{priceTopicName},#{hospitalCity},#{hospitalProvince},#{coefficient},#{drugName},#{specName},#{drugSpecName},#{drugNum},#{drugCnt},#{hospitalPreAddre},#{hospitalPreName},#{hospitalName},#{orderDate},#{price},#{companyName},#{branchCompanyName},#{branchCompany},#{year},#{month},#{day},#{actualPrice},#{totalMoney},#{companyArea},#{departmentName},#{hospitalArea},#{hospitalLavel},#{hospitalType},#{salesmanName},#{deductionRate},#{biddingPrice},#{billingPrice},#{rebateRate},#{brightPrice},#{darkPrice},#{rebatePrice},#{drugId},#{specId},#{hospitalId},#{deptmentId},#{companyId},#{companySellAreaId},#{salesmanId},#{companyDrugId},#{rebateId},#{status},#{corpCode},#{createBy},#{createTime},#{lastModifyBy},now())
+    </insert>
+
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="update" parameterType="com.ace.app.cms.drug.domain.Order">
+    update t_cms_order set 
+	<trim  suffixOverrides="," >
+	<if test="drugName != null  and drugName != '' ">
+		drug_name=#{drugName},
+	</if>
+        <if test="drugCode != null  and drugCode != '' ">
+            drug_code=#{drugCode},
+	</if>
+        <if test="priceTopicName != null  and priceTopicName != '' ">
+            priceTopicName=#{priceTopicName},
+	</if>
+	<if test="specName != null  and specName != '' ">
+		spec_name=#{specName},
+	</if>
+	<if test="drugSpecName != null  and drugSpecName != '' ">
+		drug_spec_name=#{drugSpecName},
+	</if>
+	<if test="drugNum != null  and drugNum != '' ">
+		drug_num=#{drugNum},
+	</if>
+	<if test="drugCnt != null  ">
+		drug_cnt=#{drugCnt},
+	</if>
+	<if test="coefficient != null  ">
+        coefficient=#{coefficient},
+	</if>
+	<if test="hospitalName != null  and hospitalName != '' ">
+		hospital_name=#{hospitalName},
+	</if>
+	<if test="orderDate != null  ">
+		order_date=#{orderDate},
+	</if>
+	<if test="price != null  ">
+		price=#{price},
+	</if>
+	<if test="companyName != null  and companyName != '' ">
+		company_name=#{companyName},
+	</if>
+	<if test="branchCompanyName != null  and branchCompanyName != '' ">
+		branch_company_name=#{branchCompanyName},
+	</if>
+	<if test="branchCompany != null  and branchCompany != '' ">
+		branch_company=#{branchCompany},
+	</if>
+	<if test="year != null  ">
+		year=#{year},
+	</if>
+	<if test="month != null  ">
+		month=#{month},
+	</if>
+	<if test="day != null  ">
+		day=#{day},
+	</if>
+	<if test="actualPrice != null  ">
+		actual_price=#{actualPrice},
+	</if>
+	<if test="totalMoney != null  ">
+		total_money=#{totalMoney},
+	</if>
+	<if test="companyArea != null  and companyArea != '' ">
+		company_area=#{companyArea},
+	</if>
+	<if test="departmentName != null  and departmentName != '' ">
+		department_name=#{departmentName},
+	</if>
+	<if test="hospitalArea != null  and hospitalArea != '' ">
+		hospital_area=#{hospitalArea},
+	</if>
+	<if test="hospitalLavel != null  and hospitalLavel != '' ">
+		hospital_lavel=#{hospitalLavel},
+	</if>
+	<if test="hospitalType != null  and hospitalType != '' ">
+		hospital_type=#{hospitalType},
+	</if>
+	<if test="salesmanName != null  and salesmanName != '' ">
+		salesman_name=#{salesmanName},
+	</if>
+	<if test="deductionRate != null  ">
+		deduction_rate=#{deductionRate},
+	</if>
+	<if test="biddingPrice != null  ">
+		bidding_price=#{biddingPrice},
+	</if>
+	<if test="billingPrice != null  ">
+		billing_price=#{billingPrice},
+	</if>
+	<if test="rebateRate != null  ">
+		rebate_rate=#{rebateRate},
+	</if>
+	<if test="brightPrice != null  ">
+		bright_price=#{brightPrice},
+	</if>
+	<if test="darkPrice != null  ">
+		dark_price=#{darkPrice},
+	</if>
+	<if test="rebatePrice != null  ">
+		rebate_price=#{rebatePrice},
+	</if>
+	<if test="drugId != null  and drugId != '' ">
+		drug_id=#{drugId},
+	</if>
+	<if test="specId != null  and specId != '' ">
+		spec_id=#{specId},
+	</if>
+	<if test="hospitalId != null  and hospitalId != '' ">
+		hospital_id=#{hospitalId},
+	</if>
+	<if test="deptmentId != null  and deptmentId != '' ">
+		deptment_id=#{deptmentId},
+	</if>
+	<if test="companyId != null  and companyId != '' ">
+		company_id=#{companyId},
+	</if>
+	<if test="companySellAreaId != null  and companySellAreaId != '' ">
+		company_sell_area_id=#{companySellAreaId},
+	</if>
+	<if test="salesmanId != null  and salesmanId != '' ">
+		salesman_id=#{salesmanId},
+	</if>
+	<if test="companyDrugId != null  and companyDrugId != '' ">
+		company_drug_id=#{companyDrugId},
+	</if>
+	<if test="rebateId != null  and rebateId != '' ">
+		rebate_id=#{rebateId},
+	</if>
+	<if test="status != null  and status != '' ">
+		status=#{status},
+	</if>
+	<if test="corpCode != null  and corpCode != '' ">
+		corp_code=#{corpCode},
+	</if>
+	<if test="lastModifyBy != null  and lastModifyBy != '' ">
+		last_modify_by=#{lastModifyBy},
+	</if>
+		last_modify_time=now(),
+	</trim>
+		where 1=1
+        <if test="id != null and id != ''">
+            and id = #{ id }
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach item="aId" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{aId}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="deleteById" parameterType="String">
+    delete 	 from t_cms_order where id = #{id}
+    </delete>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="com.ace.app.cms.drug.domain.Order">
+        delete from t_cms_order
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 根据id查询 流向清单 -->
+    <select id="getObject" resultMap="BaseResultMap" parameterType="String">
+        select <include refid="Base_Column_List" /> 
+	 from t_cms_order where id = #{id}
+    </select>
+
+
+    <!-- 流向清单列表总数-->
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(1) from t_cms_order
+    </select>
+
+    <!-- 流向清单条件列表总数-->
+    <select id="getCountBySelective" resultType="java.lang.Integer" parameterType="com.ace.app.cms.drug.domain.Order">
+        select count(1) from t_cms_order
+        <include refid="Example_Where_Clause"/>
+    </select>
+    <!-- 流向清单条件查询 流向清单-->
+    <select id="getBySelective" resultMap="BaseResultMap"  parameterType="com.ace.app.cms.drug.domain.Order">
+        select <include refid="Base_Column_List"/>
+        from t_cms_order
+        <include refid="Example_Where_Clause"/>
+    </select>
+
+    <!-- 查询流向清单列表 -->
+    <select id="findList" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+        select
+        <include refid="Base_Column_List"/>
+        from t_cms_order
+        <include refid="Example_Where_Clause"/>
+        order by order_date desc
+    </select>
+
+    <!-- 批量插入-->
+    <insert id="saveBatch"  parameterType="java.util.List">
+        insert into  t_cms_order(
+        id,drug_code,priceTopicName,hospital_city,hospital_province,coefficient,drug_name,spec_name,drug_spec_name,
+        drug_num,drug_cnt,hospitalPreAddre,hospitalPreName,hospital_name,order_date,price,company_name,branch_company_name,branch_company,
+        year,month,day,actual_price,total_money,company_area,department_name,hospital_area,hospital_lavel,hospital_type,
+        salesman_name,deduction_rate,bidding_price,billing_price,rebate_rate,bright_price,dark_price,rebate_price,drug_id,
+        spec_id,hospital_id,deptment_id,company_id,company_sell_area_id,salesman_id,company_drug_id,rebate_id,status,
+        corp_code,create_by,create_time,last_modify_by,last_modify_time
+        )
+        values
+        <foreach collection="list" item="entity" index="index" separator="," >
+            (#{entity.id},#{entity.drugCode},#{entity.priceTopicName},#{entity.hospitalCity},#{entity.hospitalProvince},
+            #{entity.coefficient},#{entity.drugName},#{entity.specName},#{entity.drugSpecName},#{entity.drugNum},
+            #{entity.drugCnt},#{entity.hospitalPreAddre},#{entity.hospitalPreName},#{entity.hospitalName},
+            #{entity.orderDate},#{entity.price},#{entity.companyName},#{entity.branchCompanyName},#{entity.branchCompany},#{entity.year},
+            #{entity.month},#{entity.day},#{entity.actualPrice},#{entity.totalMoney},#{entity.companyArea},
+            #{entity.departmentName},#{entity.hospitalArea},#{entity.hospitalLavel},#{entity.hospitalType},#{entity.salesmanName},
+            #{entity.deductionRate},#{entity.biddingPrice},#{entity.billingPrice},
+            #{entity.rebateRate},#{entity.brightPrice},#{entity.darkPrice},#{entity.rebatePrice},#{entity.drugId},#{entity.specId},
+            #{entity.hospitalId},#{entity.deptmentId},#{entity.companyId},#{entity.companySellAreaId},#{entity.salesmanId},
+            #{entity.companyDrugId},#{entity.rebateId},#{entity.status},#{entity.corpCode},#{entity.createBy},#{entity.createTime},#{entity.lastModifyBy},#{entity.lastModifyTime}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 批量删除-->
+    <delete id="batchRemove" parameterType="java.util.HashMap">
+        delete from t_cms_order
+        where id in
+        <foreach collection="item" item="item" index="index" open="(" close=")" separator=",">
+        #{item}
+        </foreach>
+        <if test="corpCode != null and corpCode != ''">
+            and corp_code =#{ corpCode }
+        </if>
+
+    </delete>
+
+
+    <select id="drugHosPage" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+        SELECT
+            drug_id,
+            hospital_id,
+            department_name,
+
+            SUM(total_money) as totalMoney,
+            SUM(coefficient) as drugCnt
+        FROM
+          t_cms_order
+        WHERE order_date &gt;=#{startTime}
+            AND order_date &lt; #{endTime}
+            AND salesman_name !='医药公司'
+        <if test="drugId != null  and drugId != '' ">
+            AND drug_id=#{drugId}
+        </if>
+        <if test="hospitalId != null  and hospitalId != '' ">
+            AND hospital_id=#{hospitalId}
+        </if>
+        <if test="departmentNameList != null and departmentName != ''">
+            and department_name in
+            <foreach item="departmentNameL" index="index" collection="departmentNameList"
+                     open="(" separator="," close=")">
+                #{departmentNameL}
+            </foreach>
+        </if>
+        GROUP BY
+            drug_id,
+            hospital_id,
+            department_name
+
+        ORDER BY SUM(#{reportType}) DESC
+
+    </select>
+
+    <select id="summaryPage" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+        SELECT
+        <if test="hospitalCity != null  and hospitalCity != '' ">
+            hospital_city,
+        </if>
+        <if test="hospitalArea != null  and hospitalArea != '' ">
+            hospital_area,
+        </if>
+        <if test="departmentName != null  and departmentName != '' ">
+            department_name,
+        </if>
+        year,month,drug_name,
+
+        SUM(total_money) as totalMoney,
+            SUM(coefficient) as drugCnt
+        FROM
+          t_cms_order
+        WHERE order_date &gt;= #{startTime}
+            AND order_date &lt; #{endTime}
+        AND salesman_name !='医药公司'
+
+        <!--
+                <if test="deptmentId != null  and deptmentId != '' ">
+                    AND deptment_id=#{deptmentId}
+                </if>
+                <if test="departmentName != null  and departmentName != '' ">
+                     AND department_name IN
+                     <foreach item="hosId" index="index" collection="departmentNameList" open="(" separator="," close=")">
+                         #{hosId}
+                     </foreach>
+                 </if>-->
+        <if test="departmentName != null  and departmentName != '' ">
+            AND department_name=#{departmentName}
+        </if>
+         <if test="hospitalArea != null  and hospitalArea != '' ">
+             AND hospital_area LIKE  CONCAT('%',#{hospitalArea},'%')
+         </if>
+
+         <if test="hospitalCity != null  and hospitalCity != '' ">
+             AND hospital_city LIKE  CONCAT('%',#{hospitalCity},'%')
+         </if>
+
+         <if test="summaryType != null  and summaryType == 'cx' ">
+             AND salesman_name  NOT LIKE CONCAT('%零售%')
+         </if>
+
+          <if test="summaryType != null  and summaryType == 'ls' ">
+             AND salesman_name  LIKE CONCAT('%零售%')
+          </if>
+
+         <if test="hospIds != null">
+             AND hospital_id in
+             <foreach item="hosId" index="index" collection="hospIds"
+                      open="(" separator="," close=")">
+                 #{hosId}
+             </foreach>
+         </if>
+
+         GROUP BY
+         <if test="hospitalCity != null  and hospitalCity != '' ">
+               hospital_city,
+         </if>
+         <if test="hospitalArea != null  and hospitalArea != '' ">
+              hospital_area,
+         </if>
+         <if test="departmentName != null  and departmentName != '' ">
+             department_name,
+         </if>
+         <!--department_name,hospital_city,drug_name,hospital_area-->
+        year,month,drug_name
+        ORDER BY hospital_city  ASC,hospital_area ASC,department_name ASC,year ASC,month ASC,drug_name ASC
+        <!-- <if test="orderBy == null  or orderBy == '' ">
+             ORDER BY SUM(coefficient) DESC
+         </if>
+
+         <if test="orderBy != null  and orderBy == 'deptment_id' ">
+             ORDER BY department_name DESC
+         </if>
+         <if test="orderBy != null  and orderBy == 'drug_id' ">
+             ORDER BY drug_name DESC
+         </if>-->
+     </select>
+
+
+
+     <select id="cSalePage" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+             drug_id,deptment_id,
+             SUM(coefficient) as coefficient
+         FROM
+           t_cms_order
+         WHERE order_date &gt;=#{startTime}
+             AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+
+         <if test="drugId != null  and drugId != '' ">
+             AND drug_id=#{drugId}
+         </if>
+
+         <if test="deptmentId != null  and deptmentId != '' ">
+             AND deptment_id=#{deptmentId}
+         </if>
+         <if test="departmentNameList != null and departmentName != ''">
+             and department_name in
+             <foreach item="departmentNameL" index="index" collection="departmentNameList"
+                      open="(" separator="," close=")">
+                 #{departmentNameL}
+             </foreach>
+         </if>
+         AND salesman_name not LIKE CONCAT('%零售%')
+         GROUP BY
+             drug_id,deptment_id
+         ORDER BY SUM(coefficient) DESC
+     </select>
+
+     <select id="newHosPage" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         drug_id,spec_id,
+         deptment_id,
+         SUM(total_money) as totalMoney,
+         SUM(drug_cnt) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+
+         <if test="drugId != null  and drugId != '' ">
+             AND drug_id=#{drugId}
+         </if>
+
+         <if test="specId != null  and specId != '' ">
+             AND spec_id=#{specId}
+         </if>
+
+         <if test="deptmentId != null  and deptmentId != '' ">
+             AND deptment_id=#{deptmentId}
+         </if>
+
+         <if test="hospIds != null">
+             AND hospital_id in
+             <foreach item="hosId" index="index" collection="hospIds"
+                      open="(" separator="," close=")">
+                 #{hosId}
+             </foreach>
+         </if>
+
+         <if test="cx != null  and cx == 'YES' ">
+             AND salesman_name NOT LIKE CONCAT('%零售%')
+         </if>
+
+         GROUP BY
+         drug_id,spec_id,
+         deptment_id
+
+         ORDER BY SUM(drug_cnt) DESC
+
+     </select>
+
+
+     <select id="hosCntPage" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         salesman_id,hospital_id,drug_id,spec_id,SUM(drug_cnt) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+
+         <if test="salesmanId != null  and salesmanId != '' ">
+             AND salesman_id=#{salesmanId}
+         </if>
+         <if test="deptmentId != null  and deptmentId != '' ">
+             AND deptment_id=#{deptmentId}
+         </if>
+         <if test="hospitalId != null  and hospitalId != '' ">
+             AND hospital_id=#{hospitalId}
+         </if>
+
+         <if test="drugId != null  and drugId != '' ">
+             AND drug_id=#{drugId}
+         </if>
+
+         <if test="specId != null  and specId != '' ">
+             AND spec_id=#{specId}
+         </if>
+
+         <if test="salesmanIds != null">
+             AND salesman_id in
+             <foreach item="saleId" index="index" collection="salesmanIds"
+                      open="(" separator="," close=")">
+                 #{saleId}
+             </foreach>
+         </if>
+         <if test="hospIds != null">
+             AND hospital_id in
+             <foreach item="hosId" index="index" collection="hospIds"
+                      open="(" separator="," close=")">
+                 #{hosId}
+             </foreach>
+         </if>
+         <if test="drugIds != null">
+             AND drug_id in
+             <foreach item="drugIdTmp" index="index" collection="drugIds"
+                      open="(" separator="," close=")">
+                 #{drugIdTmp}
+             </foreach>
+         </if>
+         <if test="specIds != null">
+             AND spec_id in
+             <foreach item="specIdsmp" index="index" collection="specIds"
+                      open="(" separator="," close=")">
+                 #{specIdsmp}
+             </foreach>
+         </if>
+
+         AND salesman_name NOT LIKE CONCAT('%零售%')
+
+         GROUP BY
+         salesman_id,hospital_id,drug_id,spec_id
+         ORDER BY SUM(drug_cnt) DESC
+
+     </select>
+
+
+     <select id="departmentReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         <if test="reportDif != null  and reportDif == 'deptment_id' ">
+             deptment_id,department_name,
+         </if>
+         <if test="reportDif != null  and reportDif == 'hospital_city' ">
+             hospital_city as departmentName,
+         </if>
+         <if test="reportDif != null  and reportDif == 'hospital_area' ">
+             hospital_area as departmentName,
+             hospital_city as hospitalCity,
+         </if>
+
+         SUM(total_money) as totalMoney
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+
+         GROUP BY
+         <if test="reportDif != null  and reportDif == 'deptment_id' ">
+             deptment_id,department_name
+         </if>
+         <if test="reportDif != null  and reportDif == 'hospital_city' ">
+             hospital_city
+         </if>
+         <if test="reportDif != null  and reportDif == 'hospital_area' ">
+             hospital_area,hospital_city
+         </if>
+
+         ORDER BY SUM(total_money) DESC
+         <if test="limitCnt != null">
+             LIMIT #{limitCnt}
+         </if>
+
+     </select>
+
+     <select id="departmentDrugReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         drug_name,
+         SUM(total_money) as totalMoney,
+         SUM(coefficient) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+
+         <if test="reportDif != null  and reportDif == 'department_name' ">
+             AND department_name=#{reportDifName}
+         </if>
+
+         <if test="reportDif != null  and reportDif == 'hospital_city' ">
+             AND hospital_city=#{reportDifName}
+         </if>
+
+         <if test="reportDif != null  and reportDif == 'hospital_area' ">
+             AND hospital_area=#{reportDifName}
+         </if>
+
+         GROUP BY
+         drug_name
+         <if test="reportType != null  and reportType == 'total_money' ">
+             ORDER BY SUM(total_money) DESC
+         </if>
+         <if test="reportType != null  and reportType == 'coefficient' ">
+             ORDER BY SUM(coefficient) DESC
+         </if>
+     </select>
+
+     <select id="drugDepartmentReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         department_name,
+         SUM(total_money) as totalMoney,
+         SUM(coefficient) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+         AND drug_id=#{drugId}
+         GROUP BY
+         department_name
+         <if test="reportType != null  and reportType == 'total_money' ">
+             ORDER BY SUM(total_money) DESC
+         </if>
+          <if test="reportType != null  and reportType == 'coefficient' ">
+             ORDER BY SUM(coefficient) DESC
+         </if>
+
+     </select>
+
+
+     <select id="drugAreaReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         hospital_area,
+         hospital_city,
+         SUM(total_money) as totalMoney,
+         SUM(coefficient) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+         AND drug_id=#{drugId}
+         GROUP BY
+         hospital_area,hospital_city
+         <if test="reportType != null  and reportType == 'total_money' ">
+             ORDER BY SUM(total_money) DESC
+         </if>
+         <if test="reportType != null  and reportType == 'coefficient' ">
+             ORDER BY SUM(coefficient) DESC
+         </if>
+
+         <if test="limitCnt != null">
+             LIMIT #{limitCnt}
+         </if>
+     </select>
+
+
+     <select id="hospitalDrugReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         hospital_name,
+         SUM(total_money) as totalMoney,
+         SUM(coefficient) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+         AND drug_id=#{drugId}
+         GROUP BY
+         hospital_name
+         ORDER BY SUM(total_money) DESC
+         <if test="limitCnt != null">
+             LIMIT #{limitCnt}
+         </if>
+     </select>
+
+
+     <select id="drugHospitalReport" resultMap="BaseResultMap" parameterType="com.ace.app.cms.drug.domain.Order">
+         SELECT
+         drug_name,
+         SUM(total_money) as totalMoney,
+         SUM(coefficient) as drugCnt
+         FROM
+         t_cms_order
+         WHERE order_date &gt;=#{startTime}
+         AND order_date &lt; #{endTime}
+         AND salesman_name !='医药公司'
+         AND hospital_id=#{hospitalId}
+         GROUP BY
+         drug_name
+         ORDER BY SUM(total_money) DESC
+         LIMIT 100
+     </select>
+
+
+
+ </mapper>

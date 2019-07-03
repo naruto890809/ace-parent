@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.ace</groupId>
+        <artifactId>ace-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.ace.framework</groupId>
+    <artifactId>framework-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>framework-base</module>
+        <module>framework-util</module>
+        <module>mybatis</module>
+        <module>mybatis-spring</module>
+        <module>framework-cache</module>
+    </modules>
+
+    <properties>
+        <com.ace.framework.soa.version>1.0-SNAPSHOT</com.ace.framework.soa.version>
+        <com.ace.framework.framework-util.version>1.0-SNAPSHOT</com.ace.framework.framework-util.version>
+    </properties>
+
+</project>
